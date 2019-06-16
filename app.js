@@ -7,9 +7,6 @@ let app=express();
 
 //cargar archivos rutas
 let ProjectRutes=require('./rutes/project');
-
-
-
 //midelwares
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -24,13 +21,8 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
 //rutas
 app.use('/api',ProjectRutes);
-
-
 //exportar
-
 module.exports=app;
 
