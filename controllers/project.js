@@ -1,6 +1,7 @@
 'use strict'
 const Project = require('../models/project');
-const fs=require('fs');
+const fs = require('fs');
+const path=require('path');
 let controller = {
     home: (req, res) => {
         return res.status(200).send({
@@ -22,6 +23,7 @@ let controller = {
         project.langs = params.langs;
         project.image = null
 
+        console.log(params)
         project.save((err, projectStored) => {
             if (err) return res.status(500).send({ mensage: 'error en la peticion' })
 
@@ -69,7 +71,7 @@ let controller = {
         Project.findByIdAndDelete(projectid, (err, projectRemoved) => {
             if (err) return res.status(500).send({ message: 'Error en el proceso de borrado' })
             if (!projectRemoved) return res.status(404).send({ message: 'no se encontro registro' })
-            return res.status(404).send({
+            return res.status(200).send({
                 projectRemoved
             })
         })
@@ -92,10 +94,10 @@ let controller = {
                         project: projectupdate
                     })
                 })
-            }else{
-                fs.unlink(filepath,(err)=>{
+            } else {
+                fs.unlink(filepath, (err) => {
                     return res.status(200).send({
-                        mensage:'la extension no es valida'
+                        mensage: 'la extension no es valida'
                     })
                 })
 
@@ -107,6 +109,24 @@ let controller = {
                 message: fileName
             })
         }
+    },
+    getImage:(req,res)=>{
+         
+        let file=req.params.image;
+        console.log(file);
+       let path_file='./uploads/'+file;
+       console.log(path_file)
+         fs.exists(path_file,(exists)=>{
+          
+          if(exists){
+           
+             return res.sendFile(path.resolve(path_file));
+        }else{
+            return res.status(200).send({
+                message:'no existe la imagen'
+            })
+        }
+        })
     }
 }
 module.exports = controller;
