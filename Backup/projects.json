@@ -1,0 +1,3 @@
+{"_id":{"$oid":"5d0023c705e8691ffc3d3977"},"name":"Mario","category":"Videojuego","year":1980,"langs":"C","image":"7vDLuArJP62So2_1UMpCS5yo.jpg","__v":0,"description":"Fontanero"}
+{"_id":{"$oid":"5d097a0da32f2c22f8e8acd5"},"name":"The witcher 3","description":"Best Game of the year","category":"Videogame","year":2015,"langs":"C#,unreal","image":"Fr_gCmz4ICRtS9MlxAwWkUwO.jpg","__v":0}
+{"_id":{"$oid":"5d0a8b80a32f2c22f8e8acd6"},"name":"Sycsoft","description":"Dev Inc","category":"Web","year":2018,"langs":"Php,js , monog , sql","image":"5OQZngdjR3Oj6lRaRV5UJ23D.png","__v":0}
