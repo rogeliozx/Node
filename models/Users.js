@@ -2,21 +2,21 @@
 
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
-let ProjectSchema = schema({
+let UsersSchema = schema({
     name: String,
 
-    description: String,
+    lastname: String,
 
-    category: String,
+    type: String,
 
-    year: Number,
+    years: Number,
 
-    langs: String,
+    password: String,
 
     image: String,
 
 });
 
-module.exports = mongoose.model('Project', ProjectSchema);
+module.exports = mongoose.model('Users', UsersSchema);
 //el schema creas lo pluralisa Project -> Projects --lo crea si no existe
 //si ya existe lo guarda ahi

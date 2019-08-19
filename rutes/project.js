@@ -8,8 +8,8 @@ let router=express.Router();
 console.log(ProjectControlador.saveProject);
 
 router.get('/home',ProjectControlador.home)
-router.post('/test', ProjectControlador.test);
-router.post('/save-project',ProjectControlador.saveProject);
+router.post('/signup', ProjectControlador.test);
+router.post('/save-user',ProjectControlador.saveUser);
 router.get('/project/:id?',ProjectControlador.getProject);
 router.get('/all',ProjectControlador.getAll);
 router.put('/edit/:id',ProjectControlador.pushUpdate);

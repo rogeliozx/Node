@@ -7,7 +7,7 @@ async function conectando(){
 let mongoose=require('mongoose');
 
 mongoose.Promise=global.Promise;
-let conecta= await mongoose.connect('mongodb://localhost:27017/portafolio')
+let conecta= await mongoose.connect('mongodb://localhost:27017/Todo')
 //crear servidor
 app.listen(port,()=>{
     console.log(`servidor creado correctamente en puerto:${port}`)

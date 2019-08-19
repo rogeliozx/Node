@@ -1,5 +1,5 @@
 'use strict'
-const Project = require('../models/project');
+const Users = require('../models/Users');
 const fs = require('fs');
 const path=require('path');
 let controller = {
@@ -13,22 +13,24 @@ let controller = {
             message: 'soy la test'
         })
     },
-    saveProject: (req, res) => {
-        let project = new Project();
+    saveUser: (req, res) => {
+        let user = new Users();
+     
         let params = req.body;
-        project.name = params.name;
-        project.description = params.description;
-        project.category = params.category;
-        project.year = params.year;
-        project.langs = params.langs;
-        project.image = null
-
-        console.log(params)
-        project.save((err, projectStored) => {
+       
+        user.name = params.name;
+        user.lastname = params.lastname;
+        user.type = params.type;
+        user.years = params.years;
+        user.password = params.password;
+        user.image = null
+       
+       
+        user.save((err, userStored) => {
             if (err) return res.status(500).send({ mensage: 'error en la peticion' })
 
-            if (!projectStored) return res.status(404).send({ message: 'no se pudo guardar el proyecto' })
-            return res.status(200).send({ project: projectStored })
+            if (!userStored) return res.status(404).send({ message: 'no se pudo guardar el proyecto' })
+            return res.status(200).send({ user: userStored })
         });
 
     },
