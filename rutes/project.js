@@ -1,15 +1,22 @@
 'use strict'
 const express=require('express');
 const ProjectControlador=require('../controllers/project');
+const Acounts=require('../controllers/Acounts');
+
 let multipart=require('connect-multiparty');
 let multpartMiddleware=multipart({uploadDir:'./uploads'});
 
 let router=express.Router();
-console.log(ProjectControlador.saveProject);
 
-router.get('/home',ProjectControlador.home)
-router.post('/signup', ProjectControlador.test);
-router.post('/save-user',ProjectControlador.saveUser);
+
+// User login and sigup rutes
+router.get('/login', Acounts.Login);
+router.post('/save-user',Acounts.saveUser);//guardo usuario signup
+//user crud admin
+router.get('/user/:id?',ProjectControlador.GetUser)
+
+
+
 router.get('/project/:id?',ProjectControlador.getProject);
 router.get('/all',ProjectControlador.getAll);
 router.put('/edit/:id',ProjectControlador.pushUpdate);

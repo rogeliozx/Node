@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 let UsersSchema = schema({
     name: String,
-
+    email:String,
     lastname: String,
 
     type: String,
@@ -14,6 +14,7 @@ let UsersSchema = schema({
     password: String,
 
     image: String,
+    boss:mongoose.Schema.Types.ObjectId,
 
 });
 

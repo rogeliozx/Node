@@ -2,38 +2,26 @@
 const Users = require('../models/Users');
 const fs = require('fs');
 const path=require('path');
-let controller = {
-    home: (req, res) => {
-        return res.status(200).send({
-            message: 'soy la home'
-        })
-    },
-    test: (req, res) => {
-        return res.status(200).send({
-            message: 'soy la test'
-        })
-    },
-    saveUser: (req, res) => {
-        let user = new Users();
-     
-        let params = req.body;
-       
-        user.name = params.name;
-        user.lastname = params.lastname;
-        user.type = params.type;
-        user.years = params.years;
-        user.password = params.password;
-        user.image = null
-       
-       
-        user.save((err, userStored) => {
-            if (err) return res.status(500).send({ mensage: 'error en la peticion' })
 
-            if (!userStored) return res.status(404).send({ message: 'no se pudo guardar el proyecto' })
-            return res.status(200).send({ user: userStored })
+const controller = {
+    GetUser: (req, res) => {
+      
+       let userId=req.params.id;
+    
+       if (userId == null) return res.status(404).send({ mensage: 'el documento no existe' })
+       Users.findById(userId,(err, user)=>{
+        if (err) return res.status(500).send({
+            message: 'error en la solicitud'
         });
-
+        if (!user) return res.status(404).send({
+            mensage: 'el documento no existe'
+        })
+        return res.status(200).send({
+            user
+        })
+       })
     },
+   
     getProject: (req, res) => {
         let projectId = req.params.id;
         console.log(projectId)
@@ -52,7 +40,10 @@ let controller = {
         })
     },
     getAll: (req = null, res) => {
-        Project.find({}).sort('+year').exec((err, projects) => {
+        //acomdando por orden alfabetico sigue aqui para obtener usuario 
+        //por jefe tiene asignado  
+        let mysort={name:1}
+        Project.find({boos:req.body.id}).sort(mysort).exec((err, projects) => {
             if (err) return res.status(500).send({ mensage: 'hola oscar :v' });
             if (!projects) return res.status(404).send({ mensage: 'error 404' });
             return res.status(200).send({ projects });
