@@ -1,6 +1,6 @@
 'use strict'
 const Users = require('../models/Users');
-const fs = require('fs');
+ const fs = require('fs');
 const path=require('path');
 
 const controller = {
@@ -8,18 +8,25 @@ const controller = {
       
        let userId=req.params.id;
     
-       if (userId == null) return res.status(404).send({ mensage: 'el documento no existe' })
+       if (userId == null) return res.status(404).send({ mensage: 'existe' })
        Users.findById(userId,(err, user)=>{
-        if (err) return res.status(500).send({
-            message: 'error en la solicitud'
-        });
-        if (!user) return res.status(404).send({
-            mensage: 'el documento no existe'
-        })
-        return res.status(200).send({
-            user
-        })
+          
+        if (err) return res.status(500).send({ message: 'error en la solicitud'});
+     
+        if (!user) return res.status(404).send({ mensage: 'el documento no existe' })
+        return res.status(200).send({user})
        })
+    },getAllAdmin: (req , res) => {
+
+        //acomdando por orden alfabetico sigue aqui para obtener usuario 
+        //por jefe tiene asignado  
+      
+        Users.find({boss:req.params.email}).exec((err, users) => {
+           
+            if (err) return res.status(500).send({ mensage: 'fallo en la consulta' });
+            if (!users) return res.status(404).send({ mensage: 'error 404 no found' });
+            return res.status(200).send({ users });
+        });
     },
    
     getProject: (req, res) => {
@@ -28,49 +35,38 @@ const controller = {
         if (projectId == null) return res.status(404).send({ mensage: 'el documento no existe' })
 
         Project.findById(projectId, (err, project) => {
-            if (err) return res.status(500).send({
-                message: 'error en la solicitud'
-            });
-            if (!project) return res.status(404).send({
-                mensage: 'el documento no existe'
-            })
+            if (err) return res.status(500).send({ message: 'error en la solicitud'});
+           
+            if (!project) return res.status(404).send({ mensage: 'el documento no existe'});
             return res.status(200).send({
                 project
             })
         })
     },
-    getAll: (req = null, res) => {
-        //acomdando por orden alfabetico sigue aqui para obtener usuario 
-        //por jefe tiene asignado  
-        let mysort={name:1}
-        Project.find({boos:req.body.id}).sort(mysort).exec((err, projects) => {
-            if (err) return res.status(500).send({ mensage: 'hola oscar :v' });
-            if (!projects) return res.status(404).send({ mensage: 'error 404' });
-            return res.status(200).send({ projects });
-        });
-    },
-    pushUpdate: (req, res) => {
-        let projectid = req.params.id;
+    
+    UserUpdate: (req, res) => {
+        let userid = req.params.id;
         let update = req.body;
-
-        Project.findByIdAndUpdate(projectid, update, { new: true }, (err, projectUpdate) => {
-            if (err) return res.status(505).send({ message: 'pos valio verga :v' })
-            if (!projectUpdate) return res.status(404).send({ mensage: 'no se encontro dato para actualizar' })
-            return res.status(200).send({ project: projectUpdate })
+console.log(update);
+        Users.findByIdAndUpdate(userid, update, { new: true }, (err, userUpdate) => {
+            
+            if (err) return res.status(505).send({ message: 'fallo envio' })
+            if (!userUpdate) return res.status(404).send({ mensage: 'no se encontro dato para actualizar' })
+            return res.status(200).send({ user: userUpdate })
         })
     },
-    beDelete: (req, res) => {
-        let projectid = req.params.id;
-        Project.findByIdAndDelete(projectid, (err, projectRemoved) => {
+    UserBeDelete: (req, res) => {
+        let usertid = req.params.id;
+        Users.findByIdAndDelete(usertid, (err, UserRemoved) => {
             if (err) return res.status(500).send({ message: 'Error en el proceso de borrado' })
-            if (!projectRemoved) return res.status(404).send({ message: 'no se encontro registro' })
+            if (!UserRemoved) return res.status(404).send({ message: 'no se encontro registro' })
             return res.status(200).send({
-                projectRemoved
+                UserRemoved
             })
         })
-    },
+    } ,
     uploadImage: (req, res) => {
-        let projectId = req.params.id;
+        let userId = req.params.id;
         let fileName = 'Imagen No subida';
         if (req.files) {
             let filepath = req.files.image.path
@@ -79,12 +75,12 @@ const controller = {
             let exSplit = fileName.split('\.');
             let fileExt = exSplit[1];
             if (fileExt == 'png' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'gif') {
-                Project.findByIdAndUpdate(projectId, { image: fileName }, { new: true }, (err, projectupdate) => {
+                Users.findByIdAndUpdate(userId, { image: fileName }, { new: true }, (err, userupdate) => {
                     if (err) return res.status(200).send({ mensage: 'el Archivo de imagen no pudo subirse' })
-                    if (!projectupdate) return res.status(404).send({ mensage: 'No existe la imagen o proyecto' })
+                    if (!userupdate) return res.status(404).send({ mensage: 'No existe la imagen o proyecto' })
 
                     return res.status(200).send({
-                        project: projectupdate
+                        user: userupdate
                     })
                 })
             } else {
@@ -108,7 +104,7 @@ const controller = {
         let file=req.params.image;
         console.log(file);
        let path_file='./uploads/'+file;
-       console.log(path_file)
+    
          fs.exists(path_file,(exists)=>{
           
           if(exists){
@@ -120,6 +116,6 @@ const controller = {
             })
         }
         })
-    }
+    } 
 }
 module.exports = controller;

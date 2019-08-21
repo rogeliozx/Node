@@ -2,7 +2,7 @@ const Users = require('../models/Users');
 const controllers={
 Login: (req, res) => {
     let userId=req.body;
-   
+   console.log(userId);
     if (userId == null) return res.status(404).send({ mensage: 'el documento no existe' })
     Users.findOne( { email: req.body.email,password:req.body.password } ).then( (user)=> {
       if (!user) {
@@ -13,7 +13,7 @@ Login: (req, res) => {
           role: user.type
         })
       } else {
-        res.status(403).json({ message: 'Invalid Password/Username' });
+        res.status(403).json({ message: 'Usuario no existente' });
       }
     }).catch((err) => {
       return res.status(500).json(err)

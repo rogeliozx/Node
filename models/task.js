@@ -9,8 +9,10 @@ let TaskSchema = schema({
 
     estado: Boolean,
 
-    author: { type: 'ObjectId', ref: 'Users' }
+    boss:String,
+
+    email:String,//aqui pasare el id por string del usuario se le asigno
 
 });
 
-module.exports = mongoose.model('Todo', TaskSchema);
+module.exports = mongoose.model('Task', TaskSchema);

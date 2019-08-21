@@ -14,7 +14,7 @@ let UsersSchema = schema({
     password: String,
 
     image: String,
-    boss:mongoose.Schema.Types.ObjectId,
+    boss:String,
 
 });
 

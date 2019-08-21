@@ -12,6 +12,13 @@ let conecta= await mongoose.connect('mongodb://localhost:27017/Todo')
 app.listen(port,()=>{
     console.log(`servidor creado correctamente en puerto:${port}`)
 })
-await console.log("conexion establecida");
+ if(!conecta){
+console.log("no establecida la conexion")
+
+ }else if(conecta){
+    console.log("establecida la conexion");
+    
+ }
+
 }
 conectando()
